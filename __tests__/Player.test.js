@@ -98,6 +98,15 @@ Player.prototype.usePotion = function (index) {
     }
 };
 
+test('adds a potion to the inventory', () => {
+    const player = new Player('Dave');
+    const oldCount = player.inventory.length;
+
+    player.addPotion(new Potion());
+
+    expect(player.inventory.length).toBeGreaterThan(oldCount);
+});
+
 const Potion = require('../lib/Potion');
 
 jest.mock('../lib/Potion');
