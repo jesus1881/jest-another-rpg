@@ -64,6 +64,40 @@ test("subtracts from player's health", () => {
     expect(player.health).toBe(0);
 });
 
+test("gets player's attack value", () => {
+    const player = new Player('Dave');
+    player.strength = 10;
+
+    expect(player.getAttackValue()).toBeGreaterThanOrEqual(5);
+    expect(player.getAttackValue()).toBeLessThanOrEqual(15);
+});
+
+test('uses a potion from inventory', () => {
+    const player = new Player('Dave');
+    player.inventory = [new Potion(), new Potion(), new Potion()];
+    const oldCount = player.inventory.length;
+
+    player.usePotion(1);
+
+    expect(player.inventory.length).toBeLessThan(oldCount);
+});
+
+Player.prototype.usePotion = function (index) {
+    const potion = this.getInventory().splice(index, 1)[0];
+
+    switch (potion.name) {
+        case 'agility':
+            this.agility += potion.value;
+            break;
+        case 'health':
+            this.health += potion.value;
+            break;
+        case 'strength':
+            this.strength += potion.value;
+            break;
+    }
+};
+
 const Potion = require('../lib/Potion');
 
 jest.mock('../lib/Potion');
