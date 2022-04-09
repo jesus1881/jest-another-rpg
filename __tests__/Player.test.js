@@ -82,21 +82,6 @@ test('uses a potion from inventory', () => {
     expect(player.inventory.length).toBeLessThan(oldCount);
 });
 
-Player.prototype.usePotion = function (index) {
-    const potion = this.getInventory().splice(index, 1)[0];
-
-    switch (potion.name) {
-        case 'agility':
-            this.agility += potion.value;
-            break;
-        case 'health':
-            this.health += potion.value;
-            break;
-        case 'strength':
-            this.strength += potion.value;
-            break;
-    }
-};
 
 test('adds a potion to the inventory', () => {
     const player = new Player('Dave');
@@ -105,6 +90,17 @@ test('adds a potion to the inventory', () => {
     player.addPotion(new Potion());
 
     expect(player.inventory.length).toBeGreaterThan(oldCount);
+});
+
+
+test('uses a potion from inventory', () => {
+    const player = new Player('Dave');
+    player.inventory = [new Potion(), new Potion(), new Potion()];
+    const oldCount = player.inventory.length;
+
+    player.usePotion(1);
+
+    expect(player.inventory.length).toBeLessThan(oldCount);
 });
 
 const Potion = require('../lib/Potion');
